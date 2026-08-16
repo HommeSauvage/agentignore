@@ -1,0 +1,11 @@
+{
+  "name": "agentignore",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "description": "The .agentignore standard: spec website and agent-harness extensions.",
+  "workspaces": ["web", "extensions/*"],
+  "pi": {
+    "extensions": []
+  }
+}

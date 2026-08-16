@@ -1,0 +1,7 @@
+{
+  "name": "@agentignore/site",
+  "private": true,
+  "scripts": {
+    "dev": "bun serve.ts"
+  }
+}

@@ -1,0 +1,8 @@
+name: hermes-agentignore
+version: 0.1.0
+description: >-
+  Hard-block paths matched by .agentignore / ~/.agentsignore from Hermes
+  file tools. Code-level enforcement via pre_tool_call hook — no prompts,
+  no override.
+provides_hooks:
+  - pre_tool_call

@@ -1,0 +1,20 @@
+{
+	"name": "opencode-agentignore",
+	"version": "0.1.0",
+	"description": "Honor the .agentignore standard in opencode (v1): ignored paths are hard-blocked at the tool-call level; .agentignore files are read-only for agents",
+	"type": "module",
+	"license": "MIT",
+	"exports": {
+		"./server": "./src/index.ts",
+		"./engine": "./src/engine.ts",
+		"./guard": "./src/guard.ts"
+	},
+	"dependencies": {
+		"ignore": "^7.0.5"
+	},
+	"devDependencies": {
+		"@opencode-ai/plugin": "^1.18.18",
+		"@types/node": "^26.2.0",
+		"typescript": "^5.9.0"
+	}
+}

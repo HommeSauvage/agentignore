@@ -1,0 +1,16 @@
+{
+	"compilerOptions": {
+		"target": "ES2022",
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"strict": true,
+		"noEmit": true,
+		"skipLibCheck": true,
+		"allowImportingTsExtensions": true,
+		"types": ["node"],
+		"paths": {
+			"@opencode-ai/plugin": ["/Users/aladdin/.opencode/node_modules/@opencode-ai/plugin/dist/index.d.ts"]
+		}
+	},
+	"include": ["src/**/*.ts"]
+}

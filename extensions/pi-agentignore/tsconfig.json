@@ -1,0 +1,17 @@
+{
+	"compilerOptions": {
+		"target": "ES2022",
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"strict": true,
+		"noEmit": true,
+		"skipLibCheck": true,
+		"allowImportingTsExtensions": true,
+		"types": ["node"],
+		"paths": {
+			"@earendil-works/pi-coding-agent": ["/Users/aladdin/.local/share/fnm/node-versions/v25.9.0/installation/lib/node_modules/@earendil-works/pi-coding-agent/dist/index.d.ts"],
+			"@earendil-works/pi-ai": ["/Users/aladdin/.local/share/fnm/node-versions/v25.9.0/installation/lib/node_modules/@earendil-works/pi-coding-agent/node_modules/@earendil-works/pi-ai/dist/index.d.ts"]
+		}
+	},
+	"include": ["src/**/*.ts"]
+}

@@ -1,0 +1,19 @@
+{
+	"name": "pi-agentignore",
+	"version": "0.1.0",
+	"description": "Honor the .agentignore standard in pi: ignored paths are a hard block at the tool-call level; .agentignore files are read-only for agents",
+	"type": "module",
+	"license": "MIT",
+	"pi": {
+		"extensions": [
+			"./src/index.ts"
+		]
+	},
+	"devDependencies": {
+		"@earendil-works/pi-coding-agent": ">=0.84.0",
+		"typescript": "^5.9.0"
+	},
+	"dependencies": {
+		"ignore": "^7.0.5"
+	}
+}

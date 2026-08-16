@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content=".agentignore — a proposed standard file that coding agents honor. Any file or folder listed in .agentignore must not be read, opened, or modified by any agent harness. gitignore for agents.">
+  <meta name="keywords" content=".agentignore, agentignore, coding agents, AI, LLM, gitignore, Claude Code, OpenCode, Cursor, Codex, context, privacy, secrets, .env">
+  <meta name="author" content="agentignore.org">
+  <meta property="og:title" content=".agentignore">
+  <meta property="og:description" content="A proposed standard file for keeping coding agents out of your files. Same syntax as .gitignore. Honored by every harness.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://agentignore.org">
+  <meta property="og:image" content="https://agentignore.org/img/share.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content=".agentignore">
+  <meta name="twitter:description" content="A proposed standard file for keeping coding agents out of your files. Same syntax as .gitignore. Honored by every harness.">
+  <meta name="twitter:image" content="https://agentignore.org/img/share.png">
+  <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#171717" media="(prefers-color-scheme: dark)">
+  <title>.agentignore</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='13' fill='none' stroke='%234a4a4a' stroke-width='3'/%3E%3Cline x1='7.5' y1='7.5' x2='24.5' y2='24.5' stroke='%234a4a4a' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+  <style>
+    /* Hallmark · genre: editorial · macrostructure: Long Document (technical doc) · theme: monochrome spec sheet · enrichment: none · nav: none · footer: none */
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #fafafa;
+      --surface: #f2f2f1;
+      --ink: #1c1c1c;
+      --muted: #6f6f6f;
+      --border: #e0e0df;
+      --font: "SF Mono", ui-monospace, Menlo, Monaco, "DejaVu Sans Mono", "Liberation Mono", monospace;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #171717;
+        --surface: #1e1e1e;
+        --ink: #e5e5e5;
+        --muted: #999999;
+        --border: #333333;
+      }
+    }
+
+    html {
+      font-size: 16px;
+      -webkit-text-size-adjust: 100%;
+      overflow-x: clip;
+    }
+
+    body {
+      font-family: var(--font);
+      background-color: var(--bg);
+      color: var(--ink);
+      line-height: 1.8;
+      overflow-x: clip;
+    }
+
+    .doc {
+      max-width: 660px;
+      margin: 0 auto;
+      padding: 3.5rem 1.5rem 5rem;
+    }
+
+    header {
+      margin-bottom: 0.5rem;
+    }
+
+    h1 {
+      font-size: 1.55rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      line-height: 1.3;
+    }
+
+    .sub {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-top: 0.4rem;
+    }
+
+    .note {
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin: 0.9rem 0 0;
+    }
+
+    .synopsis {
+      margin-top: 1.2rem;
+      font-size: 0.95rem;
+      color: var(--ink);
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 2.4rem 0;
+    }
+
+    h2 {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ink);
+      margin: 2.4rem 0 1.1rem;
+    }
+
+    p {
+      font-size: 0.95rem;
+      margin-bottom: 1.1rem;
+    }
+
+    code {
+      font-size: 0.9em;
+    }
+
+    a {
+      color: var(--ink);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      text-decoration-thickness: 1px;
+    }
+
+    a:hover {
+      color: var(--muted);
+    }
+
+    ul {
+      padding-left: 1.4rem;
+      margin-bottom: 1.1rem;
+    }
+
+    li {
+      font-size: 0.95rem;
+      margin-bottom: 0.5rem;
+    }
+
+    strong {
+      font-weight: 600;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin: 1.2rem 0 1.6rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      min-width: 400px;
+    }
+
+    th,
+    td {
+      text-align: left;
+      padding: 0.55rem 0.8rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    th {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+
+    td:first-child {
+      white-space: nowrap;
+      font-weight: 500;
+    }
+
+    td code {
+      color: var(--muted);
+    }
+
+    .spec {
+      margin: 1.2rem 0 1.6rem;
+    }
+
+    .spec .label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .spec pre {
+      font-size: 0.88rem;
+      line-height: 1.7;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 1.2rem 1.4rem;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      white-space: pre;
+    }
+
+    .spec pre .c {
+      color: var(--muted);
+    }
+
+    .spec .foot {
+      display: flex;
+      justify-content: flex-end;
+      padding-top: 0.6rem;
+    }
+
+    button {
+      font-family: var(--font);
+      font-size: 0.78rem;
+      color: var(--ink);
+      background: transparent;
+      border: 1px solid var(--border);
+      padding: 0.4rem 0.8rem;
+      cursor: pointer;
+      transition: background-color 0.15s ease;
+      white-space: nowrap;
+    }
+
+    button:hover {
+      background: var(--surface);
+    }
+
+    button:focus-visible {
+      outline: 2px solid var(--ink);
+      outline-offset: 2px;
+    }
+
+    .see-also ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .see-also li {
+      margin-bottom: 0.7rem;
+    }
+
+    @media (max-width: 480px) {
+      .doc {
+        padding: 2.4rem 1.1rem 4rem;
+      }
+
+      h1 {
+        font-size: 1.3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="doc">
+    <header>
+      <h1>.agentignore</h1>
+      <p class="sub">A standard for keeping coding agents out of your files</p>
+      <p class="synopsis">
+        Anything listed in a <code>.agentignore</code> must not be read, opened, or
+        modified by any coding agent. One file, honored by every harness.
+      </p>
+    </header>
+
+    <hr>
+
+    <section>
+      <h2>The Problem</h2>
+      <p>
+        Coding agents read your files and send them to a model. Anything they read can
+        leave your machine.
+      </p>
+      <p>Every harness has its own way to say &ldquo;stay out&rdquo;:</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Harness</th>
+              <th>Today's mechanism</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Claude Code</td>
+              <td><code>settings.json</code> <a href="https://code.claude.com/docs/en/settings" target="_blank" rel="noopener noreferrer">deny rules</a> (<code>Read</code>/<code>Edit</code>)</td>
+            </tr>
+            <tr>
+              <td>Cursor</td>
+              <td><a href="https://cursor.com/docs/reference/ignore-file" target="_blank" rel="noopener noreferrer"><code>.cursorignore</code></a></td>
+            </tr>
+            <tr>
+              <td>Codex CLI</td>
+              <td><a href="https://developers.openai.com/codex/config-reference" target="_blank" rel="noopener noreferrer">sandbox modes</a> + permission profiles</td>
+            </tr>
+            <tr>
+              <td>OpenCode</td>
+              <td><a href="https://opencode.ai/docs/permissions/" target="_blank" rel="noopener noreferrer"><code>permissions</code> config</a> (<code>allow</code>/<code>ask</code>/<code>deny</code>)</td>
+            </tr>
+            <tr>
+              <td>Cline</td>
+              <td><a href="https://docs.cline.bot/features/cline-ignore" target="_blank" rel="noopener noreferrer"><code>.clineignore</code></a></td>
+            </tr>
+            <tr>
+              <td>Grok Build</td>
+              <td><a href="https://docs.x.ai/build/features/permissions" target="_blank" rel="noopener noreferrer"><code>--allow</code>/<code>--deny</code> rules</a> + sandbox profiles</td>
+            </tr>
+            <tr>
+              <td>DeepSeek</td>
+              <td><code>settings.json</code> deny rules (<a href="https://github.com/Doriandarko/deepseek-engineer" target="_blank" rel="noopener noreferrer">Claude Code fork</a>)</td>
+            </tr>
+            <tr>
+              <td>Hermes</td>
+              <td><a href="https://hermes-agent.nousresearch.com/docs/user-guide/security" target="_blank" rel="noopener noreferrer">write denylist</a> + sandbox (writes only)</td>
+            </tr>
+            <tr>
+              <td>pi agent</td>
+              <td>none</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        One idea, one mechanism per harness, none of them interoperable.
+        A repo that uses two harnesses needs two files to say the same thing.
+      </p>
+      <p>
+        <code>.gitignore</code> does not help. It keeps files out of git, not out of
+        agents. Agents read the working tree. Your <code>.env</code> is gitignored and
+        present on disk, and nothing stops an agent from reading it.
+      </p>
+      <p>
+        Permission prompts have the same problem. OpenCode asks before reading
+        <code>.env</code>, and one accidental Enter later the file is in the context.
+        A prompt is a reflex. A file is a decision.
+      </p>
+    </section>
+
+    <hr>
+
+    <section>
+      <h2>The Proposal</h2>
+      <p>
+        A single file that every harness honors. Same syntax as <code>.gitignore</code>.
+        Nothing new to learn.
+      </p>
+      <p>
+        <code>AGENTS.md</code> and the <code>.agents</code> folder (skills included)
+        became de facto standards the same way: a convention, adopted harness by
+        harness. <code>AGENTS.md</code> tells agents what to read.
+        <code>.agentignore</code> tells them what not to. It should be next.
+      </p>
+
+      <div class="spec">
+        <div class="label">.agentignore</div>
+        <pre><span class="c"># secrets stay secret</span>
+.env
+.env.*
+
+<span class="c"># keep the model's context clean</span>
+docs/scratch/
+
+<span class="c"># private</span>
+notes/private/</pre>
+        <div class="foot">
+          <button class="copy-btn" data-copy="# secrets stay secret
+.env
+.env.*
+
+# keep the model's context clean
+docs/scratch/
+
+# private
+notes/private/">
+            <span>Copy</span>
+          </button>
+        </div>
+      </div>
+
+      <p><strong>How it works.</strong></p>
+      <ul>
+        <li>
+          <strong>Same syntax as <code>.gitignore</code>:</strong> patterns, comments,
+          <code>!</code> negation.
+        </li>
+        <li>
+          <strong>Nested per-directory files.</strong> A <code>.agentignore</code>
+          applies to its directory and everything below it. Deeper files override
+          shallower ones; in one file, the last match wins. Exactly how git does it.
+        </li>
+        <li>
+          <strong>Hard block, not a prompt.</strong> Matched paths are treated as if
+          they do not exist. No &ldquo;are you sure?&rdquo;, no override. To unblock a
+          file, edit the <code>.agentignore</code> that blocks it.
+        </li>
+        <li>
+          <strong>Read-only rules.</strong> Agents read <code>.agentignore</code> to
+          honor it. Modifying or deleting the file to lift a block is not allowed. The
+          rules belong to the user.
+        </li>
+        <li>
+          <strong>A global file.</strong> <code>~/.agentsignore</code> applies to
+          everything, like git's global excludes.
+        </li>
+        <li>
+          <strong>Separate from git.</strong> <code>.gitignore</code> decides what gets
+          committed. <code>.agentignore</code> decides what agents may touch. A listed
+          file is off-limits even when tracked.
+        </li>
+      </ul>
+    </section>
+
+    <hr>
+
+    <section>
+      <h2>What it is not</h2>
+      <p>
+        <code>.agentignore</code> is a convention, not a security boundary.
+        Models have escaped difficult sandboxes; for a model that treats every
+        file as input, disregarding an ignore file would be trivial. Harnesses
+        enforce the standard on a best-effort basis &mdash; reliably in the
+        common case, never as a guarantee.
+      </p>
+      <p>
+        The design is an honor system. The harness blocks access to listed
+        paths wherever it can, and the model is expected to stay out even
+        where it cannot. The spec is a contract between harness and model
+        &mdash; not a wall.
+      </p>
+      <p>
+        Anything that must truly never be seen should not live on machines
+        where agents are deployed at all &mdash; not in the working tree, not
+        in a container, not anywhere an agent can reach. No ignore file can
+        protect a secret that is already in reach. For everything that has to
+        exist on disk &mdash; <code>.env</code> files, scratch notes, private
+        documents &mdash; <code>.agentignore</code> is enough to keep it out
+        of day-to-day operations.
+      </p>
+    </section>
+
+    <hr>
+
+    <section>
+      <h2>Why it matters</h2>
+      <ul>
+        <li>
+          <strong>Secrets.</strong> <code>.env</code>, keys, certificates. Even
+          harnesses that ask first lose to a stray Enter. The file is a standing
+          decision.
+        </li>
+        <li>
+          <strong>Clean context.</strong> Scratch pads and draft docs are full of stale,
+          contradictory ideas. Agents grep them into context, spend tokens trying to
+          reconcile them, and get things wrong. It is cheaper and more often right.
+        </li>
+        <li>
+          <strong>Sensitive documents.</strong> Point an agent at a folder of
+          contracts, client records, or payroll and it reads what it finds. A
+          hard block in the harness stops it before anything reaches the model
+          &mdash; not a recommendation an LLM may weigh and set aside.
+        </li>
+        <li>
+          <strong>Privacy.</strong> Anything the agent reads may leave your machine.
+          Keep a file unread and it cannot leave; keep it off the machine and
+          it cannot be read.
+        </li>
+        <li>
+          <strong>Portable.</strong> One file, every agent. Move from Hermes to pi or
+          any future harness and the same <code>.agentignore</code> keeps the same
+          files off-limits. Switch agents, not config.
+        </li>
+      </ul>
+    </section>
+
+    <hr>
+
+    <section>
+      <h2>For Harness Developers</h2>
+      <p>
+        If you maintain a coding agent, please check for <code>.agentignore</code> files:
+      </p>
+      <ul>
+        <li>
+          Before reading, opening, or modifying a path, check the
+          <code>.agentignore</code> files that apply: global, project root, and every
+          directory you descend into.
+        </li>
+        <li>
+          Treat matched paths as if they do not exist. Do not list, read, edit, or
+          include them in the context.
+        </li>
+        <li>
+          Do not prompt to override. If a user wants a file accessible, they edit the
+          <code>.agentignore</code>.
+        </li>
+        <li>
+          Never modify or delete <code>.agentignore</code> files (or
+          <code>~/.agentsignore</code>). Agents read them; only the user edits them.
+        </li>
+        <li>
+          Same precedence as git. The closest <code>.agentignore</code> decides.
+          In one file, the last match wins. <code>!</code> re-includes it.
+        </li>
+      </ul>
+      <p>
+        Reference implementations:
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Harness</th>
+              <th>Extension</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Hermes</td>
+              <td><a href="https://github.com/HommeSauvage/agentignore/tree/master/extensions/hermes-agentignore" target="_blank" rel="noopener noreferrer">hermes-agentignore</a></td>
+              <td>v0.1.0 &mdash; hard block via <code>pre_tool_call</code> hook</td>
+            </tr>
+            <tr>
+              <td>pi</td>
+              <td><a href="https://github.com/HommeSauvage/agentignore/tree/master/extensions/pi-agentignore" target="_blank" rel="noopener noreferrer">pi-agentignore</a></td>
+              <td>v0.1.0 &mdash; hard block via <code>tool_call</code> hook</td>
+            </tr>
+            <tr>
+              <td>opencode v1</td>
+              <td><a href="https://github.com/HommeSauvage/agentignore/tree/master/extensions/opencode-agentignore" target="_blank" rel="noopener noreferrer">opencode-agentignore</a></td>
+              <td>v0.1.0 &mdash; hard block via <code>tool.execute.before</code> hook</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">
+        The above are attempts at the extension/plugin level. Harnesses should
+        implement this functionality as a native feature. We will remove these
+        extensions and update the table above whenever a harness adds it
+        natively.
+      </p>
+      <p class="note">
+        Any contributions to the above extensions are welcome!
+      </p>
+    </section>
+
+    <hr>
+
+    <section class="see-also">
+      <h2>See Also</h2>
+      <ul>
+        <li><a href="https://git-scm.com/docs/gitignore" target="_blank" rel="noopener noreferrer">gitignore(5)</a></li>
+        <li><a href="https://cursor.com/docs/reference/ignore-file" target="_blank" rel="noopener noreferrer">.cursorignore</a></li>
+        <li><a href="https://docs.cline.bot/features/cline-ignore" target="_blank" rel="noopener noreferrer">.clineignore</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      var buttons = document.querySelectorAll('.copy-btn');
+      for (var i = 0; i < buttons.length; i++) {
+        buttons[i].addEventListener('click', function () {
+          var btn = this;
+          var text = btn.getAttribute('data-copy');
+          var span = btn.querySelector('span');
+          var original = span.textContent;
+          if (navigator.clipboard) {
+            navigator.clipboard.writeText(text).then(function () {
+              span.textContent = 'Copied';
+              setTimeout(function () {
+                span.textContent = original;
+              }, 2000);
+            });
+          }
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
